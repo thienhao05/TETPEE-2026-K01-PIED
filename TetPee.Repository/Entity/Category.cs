@@ -9,7 +9,7 @@ public class Category: BaseEntity<Guid>, IAuditableEntity
     public Guid? ParentId { get; set; } 
     public Category? Parent { get; set; }
     //Nếu mà là null thì nó là thằng cha cao nhất
-    //Nếu mà có giá trị thì n1o là thằng con của ParentId
+    //Nếu mà có giá trị thì nó là thằng con của ParentId
     
     public ICollection<Category> Children { get; set; } = new List<Category>();
     //nó tự có mối quan hệ với nó luôn

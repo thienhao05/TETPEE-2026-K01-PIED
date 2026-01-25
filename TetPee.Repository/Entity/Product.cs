@@ -8,7 +8,8 @@ public class Product: BaseEntity<Guid>, IAuditableEntity
     public required string Description { get; set; }
     public string UrlImage { get; set; } = string.Empty;
     public decimal Price { get; set; }
-
+    
+    //1 sản phẩm thuộc về 1 seller
     public Guid SellerId { get; set; }
     public Seller Seller { get; set; }
 

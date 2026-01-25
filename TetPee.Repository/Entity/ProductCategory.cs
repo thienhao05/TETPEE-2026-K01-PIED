@@ -4,7 +4,7 @@ namespace TetPee.Repository.Entity;
 
 public class ProductCategory: BaseEntity<Guid>, IAuditableEntity
 {
-    
+    // Là bảng trung gian giữa Product và Category
     public Guid CategoryId { get; set; }
     public Category Category { get; set; }
     
