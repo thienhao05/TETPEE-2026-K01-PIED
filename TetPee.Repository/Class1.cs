@@ -13,7 +13,8 @@ public class Class1
     // - Làm việc với database có sẵn, setup 1 database
     // - Vô tạo Create Table, Create Database, Setup Field, setup các Relationship
     // - Sau đó, ở trên code xử dụng các Driver hoặc ORM để kết nối xuống Database
-    // - Thằng này sử dụng khi nào: KHi mình có Database có sẵn và đã sử dụng trong rất nhiều năm rồi, những dự án Maintain
+    // - Ở trên code sẽ tạo những class tương ứng với các table trong database.
+    // - Thằng này sử dụng khi nào: Khi mình có Database có sẵn và đã sử dụng trong rất nhiều năm rồi, những dự án Maintain
     
     // Code First: 
     // - Mình sẽ ko setup database thủ công bằng các query 
