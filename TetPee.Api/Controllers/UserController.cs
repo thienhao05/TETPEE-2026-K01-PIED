@@ -48,11 +48,11 @@ public class UserController: ControllerBase
     //update user by id: http://localhost:5000/User/{id}/update
     
     [HttpGet("")]
-    public IActionResult GetUsers([FromQuery]string searchTerm)
+    public IActionResult GetUsers([FromQuery]string? searchTerm)
     {
-        // var users = _dbContext.Users.ToList();
+        var users = _dbContext.Users.ToList();
         // return Ok(users);
-        return Ok("Get all users");
+        return Ok(users);
     }
     
     //body là mình phải truyền vào 1 object
