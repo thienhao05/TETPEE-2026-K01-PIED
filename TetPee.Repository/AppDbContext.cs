@@ -5,11 +5,11 @@ namespace TetPee.Repository;
 
 public class AppDbContext : DbContext
 {
-    
     public static Guid UserId1 = Guid.NewGuid();
     public static Guid UserId2 = Guid.NewGuid();
     public static Guid CategoryParentId1 = Guid.NewGuid();
     public static Guid CategoryParentId2 = Guid.NewGuid();
+
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
     {
@@ -142,7 +142,7 @@ public class AppDbContext : DbContext
                     UserId = UserId1
                 }
             };
-            
+
             builder.HasData(seller);
         });
 
@@ -151,8 +151,6 @@ public class AppDbContext : DbContext
             builder.Property(c => c.Name)
                 .IsRequired()
                 .HasMaxLength(100);
-
-            
             
             var categories = new List<Category>()
             {
@@ -185,19 +183,81 @@ public class AppDbContext : DbContext
                     ParentId = CategoryParentId2
                 },
             };
-            
+
             for (int i = 0; i < 1000; i++)
             {
-                var newCategory = new Category()
+                if (i % 2 == 0)
                 {
-                    Id = Guid.NewGuid(),
-                    Name = "Áo" + i,
-                    ParentId = CategoryParentId1
-                };
-                categories.Add(newCategory);
+                    var newCategory = new Category()
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "Áo" + i,
+                        ParentId = CategoryParentId1
+                    };
+                    categories.Add(newCategory);
+                }
+                else
+                {
+                    var newCategory = new Category()
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "Quần" + i,
+                        ParentId = CategoryParentId2
+                    };
+                    categories.Add(newCategory);
+                }
             }
-            
+
             builder.HasData(categories);
+            // // IsVerify - default false
+            // builder.Property(u => u.IsVerify)
+            //     .HasDefaultValue(false);
+            //
+            // // VerifyCode
+            // builder.Property(u => u.VerifyCode)
+            //     .IsRequired();
+            //
+            // // DateOfBirth - nullable, max 20 characters
+            // builder.Property(u => u.DateOfBirth)
+            //     .HasMaxLength(20);
+            //
+            // // IsDeleted (Soft Delete) - default false
+            // builder.Property(u => u.IsDeleted)
+            //     .HasDefaultValue(false);
+            //
+            // // CreatedAt - required
+            // builder.Property(u => u.CreatedAt)
+            //     .IsRequired();
+            
+            // // CreatedAt - required
+            // builder.Property(u => u.CreatedAt)
+            //     .IsRequired();
+            //
+            // // UpdatedAt - nullable
+            // builder.Property(u => u.UpdatedAt);
+            //
+            // // Relationship: User has one Seller (one-to-one)
+            //  builder.HasOne(u => u.Seller)
+            //                 .WithOne(s => s.User)
+            //                 .HasForeignKey<Seller>(s => s.UserId)
+            //                 .OnDelete(DeleteBehavior.Cascade);
+            //
+            // // DeleteBehavior.Cascade: Khi một User bị xóa, thì Seller liên quan cũng sẽ bị xóa theo.
+            // // DeleteBehavior.Restrict: Ngăn chặn việc xóa User nếu có Seller liên quan tồn tại. (Thường dùng PK tồn tại)
+            // // DeleteBehavior.NoAction: Không thực hiện hành động gì đặc biệt khi User bị xóa. (Gần giống Restrict, xử lý ở DB)
+            // // DeleteBehavior.SetNull: Khi User bị xóa, thì UserId trong bảng Seller sẽ được đặt thành NULL.
+            // // (Áp dụng khi trường FK cho phép NULL)
+            //
+            //
+            // // Relationship: User has many Orders (one-to-many)
+            // builder.HasMany(u => u.Orders)
+            //                 .WithOne(o => o.User)
+            //                 .HasForeignKey(o => o.UserId)
+            //                 .OnDelete(DeleteBehavior.Cascade);
+            //
+            //
+            // // Global query filter for soft delete
+            // builder.HasQueryFilter(u => !u.IsDeleted);
         });
     }
 }
