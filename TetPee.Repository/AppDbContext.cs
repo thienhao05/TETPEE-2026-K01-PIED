@@ -9,6 +9,9 @@ public class AppDbContext : DbContext
     public static Guid UserId2 = Guid.NewGuid();
     public static Guid CategoryParentId1 = Guid.NewGuid();
     public static Guid CategoryParentId2 = Guid.NewGuid();
+    
+    public static Guid SellerId1 = Guid.NewGuid();  
+    public static Guid SellerId2 = Guid.NewGuid();  
 
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
@@ -117,6 +120,7 @@ public class AppDbContext : DbContext
             builder.HasData(users);
         });
         
+        // ==================== Seller Configuration ====================
         modelBuilder.Entity<Seller>(builder =>
         {
             builder.Property(s => s.TaxCode)
@@ -131,21 +135,30 @@ public class AppDbContext : DbContext
                 .IsRequired()
                 .HasMaxLength(500);
         
-            var seller = new List<Seller>()
+            var sellers = new List<Seller>()
             {
                 new()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = SellerId1,
                     TaxCode = "TAXCODE123",
                     CompanyName = "ABC Company",
                     CompanyAddress = "123 Main St, Cityville",
                     UserId = UserId1
-                }
+                },
+                new()
+                {
+                    Id = SellerId2,
+                    TaxCode = "TAXCODE123",
+                    CompanyName = "ABC Company",
+                    CompanyAddress = "123 Main St, Cityville2",
+                    UserId = UserId2
+                },
             };
-        
-            builder.HasData(seller);
+            
+            builder.HasData(sellers);
         });
         
+        // ==================== Category Configuration ====================
         modelBuilder.Entity<Category>(builder =>
         {
             builder.Property(c => c.Name)
@@ -259,6 +272,131 @@ public class AppDbContext : DbContext
             // // Global query filter for soft delete
             // builder.HasQueryFilter(u => !u.IsDeleted);
         });
+        
+        // ==================== Order Configuration ====================
+        modelBuilder.Entity<Order>(builder =>
+        {
+            builder.Property(o => o.Status)
+                .IsRequired();
+            
+            builder.Property(o => o.Address)
+                .IsRequired()
+                .HasMaxLength(200);
+            
+            builder.Property(o => o.TotalAmount)
+                .IsRequired()
+                .HasColumnType("decimal(18,2)");
+
+            var orders = new List<Order>()
+            {
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = UserId1,
+                    CreatedAt = DateTimeOffset.Now,
+                    UpdatedAt = DateTimeOffset.Now,
+                    Address = "123 Main St, Cityville",
+                    Status = "Pending",
+                    TotalAmount = 1000
+                },
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = UserId2,
+                    CreatedAt = DateTimeOffset.Now,
+                    UpdatedAt = DateTimeOffset.Now,
+                    Address = "123 Main St, Cityville",
+                    Status = "Pending",
+                    TotalAmount = 1000
+                },
+            };
+            builder.HasData(orders);
+        });
+        
+        // ==================== Cart Configuration ====================
+        modelBuilder.Entity<Cart>(builder =>
+        {
+            builder.HasOne(c => c.User)
+                .WithOne(u => u.Cart)
+                .HasForeignKey<Cart>(c => c.UserId);
+
+            var carts = new List<Cart>()
+            {
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = UserId1,
+                },
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = UserId2,
+                }
+            };
+            builder.HasData(carts);
+        });
+
+        // ==================== Product Configuration ====================
+        modelBuilder.Entity<Product>(builder =>
+        {
+            builder.Property(p => p.Name)
+                .IsRequired()
+                .HasMaxLength(100);
+            
+            builder.Property(p => p.Description)
+                .IsRequired()
+                .HasMaxLength(500);
+            
+            builder.Property(p => p.Price)
+                .IsRequired()
+                .HasColumnType("decimal(18,2)");
+            
+            builder.HasOne(p => p.Inventory)
+                .WithOne(i => i.Product)
+                .HasForeignKey<Inventory>(i => i.Id);
+
+            var products = new List<Product>()
+            {
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Áo",
+                    Description = "Áo dài",
+                    Price = 1000,
+                    SellerId = SellerId1,
+                },
+            };
+
+            for (int i = 0; i < 1000; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    var newProduct = new Product()
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "Áo" + i,
+                        Description = "Áo dài" + i,
+                        Price = 1000,
+                        SellerId = SellerId1
+                    };
+                    products.Add(newProduct);
+                }
+                else
+                {
+                    var newProduct = new Product()
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "Áo" + i,
+                        Description = "Quần dài" + i,
+                        Price = 2000,
+                        SellerId = SellerId2
+                    };
+                    products.Add(newProduct); 
+                }
+            }
+            builder.HasData(products);
+        });
+
     }
 }
 //xong catogory với có 100 trong db
