@@ -36,43 +36,43 @@ public class AppDbContext : DbContext
             builder.Property(u => u.Email)
                 .IsRequired()
                 .HasMaxLength(255);
-
+        
             builder.HasIndex(u => u.Email)
                 .IsUnique();
-
+        
             builder.Property(u => u.FirstName)
                 .IsRequired()
                 .HasMaxLength(100);
-
+        
             // LastName - required, max 100 characters
             builder.Property(u => u.LastName)
                 .IsRequired()
                 .HasMaxLength(100);
-
+        
             // ImageUrl - nullable, max 500 characters (URL)
             builder.Property(u => u.ImageUrl)
                 .HasMaxLength(500);
-
+        
             // PhoneNumber - nullable, max 20 characters
             builder.Property(u => u.PhoneNumber)
                 .HasMaxLength(20);
-
+        
             // HashedPassword - required, max 500 characters
             builder.Property(u => u.HashedPassword)
                 .IsRequired()
                 .HasMaxLength(500);
-
+        
             builder.Property(u => u.Role)
                 .IsRequired()
                 .HasMaxLength(20)
                 .HasDefaultValue("User");
-
+        
             // Relationship: User has one Seller (one-to-one)
             builder.HasOne(u => u.Seller)
                 .WithOne(s => s.User)
                 .HasForeignKey<Seller>(s => s.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
-
+        
             // DeleteBehavior.Cascade: Khi một User bị xóa, thì Seller liên quan cũng sẽ bị xóa theo.
             // DeleteBehavior.Restrict: Ngăn chặn việc xóa một User nếu có Seller liên quan tồn tại.
             //(Tham chiếu tới PK tồn tại)
@@ -80,7 +80,7 @@ public class AppDbContext : DbContext
             // DeleteBehavior.NoAction: Không thực hiện hành động gì đặc biệt khi User bị xóa. ( Gàn giống Restrict, xử lí ở DB)
             // DeleteBehavior.SetNull: Khi một User bị xóa, thì trường UserId trong bảng Seller sẽ được đặt thành NULL.
             //(Áp dụng khi trường FK cho phép NULL)
-
+        
             List<User> users = new List<User>()
             {
                 new()
@@ -100,7 +100,7 @@ public class AppDbContext : DbContext
                     HashedPassword = "hashed_password_1",
                 }
             };
-
+        
             for (int i = 0; i < 1000; i++)
             {
                 var newUser = new User()
@@ -113,10 +113,10 @@ public class AppDbContext : DbContext
                 };
                 users.Add(newUser);
             }
-
+        
             builder.HasData(users);
         });
-
+        
         modelBuilder.Entity<Seller>(builder =>
         {
             builder.Property(s => s.TaxCode)
@@ -130,7 +130,7 @@ public class AppDbContext : DbContext
             builder.Property(s => s.CompanyAddress)
                 .IsRequired()
                 .HasMaxLength(500);
-
+        
             var seller = new List<Seller>()
             {
                 new()
@@ -142,10 +142,10 @@ public class AppDbContext : DbContext
                     UserId = UserId1
                 }
             };
-
+        
             builder.HasData(seller);
         });
-
+        
         modelBuilder.Entity<Category>(builder =>
         {
             builder.Property(c => c.Name)
@@ -183,7 +183,7 @@ public class AppDbContext : DbContext
                     ParentId = CategoryParentId2
                 },
             };
-
+        
             for (int i = 0; i < 1000; i++)
             {
                 if (i % 2 == 0)
@@ -207,7 +207,7 @@ public class AppDbContext : DbContext
                     categories.Add(newCategory);
                 }
             }
-
+        
             builder.HasData(categories);
             // // IsVerify - default false
             // builder.Property(u => u.IsVerify)
