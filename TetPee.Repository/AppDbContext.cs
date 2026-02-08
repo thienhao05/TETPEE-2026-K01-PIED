@@ -7,6 +7,7 @@ public class AppDbContext : DbContext
 {
     public static Guid UserId1 = Guid.NewGuid();
     public static Guid UserId2 = Guid.NewGuid();
+    
     public static Guid CategoryParentId1 = Guid.NewGuid();
     public static Guid CategoryParentId2 = Guid.NewGuid();
     
@@ -95,21 +96,29 @@ public class AppDbContext : DbContext
                     FirstName = "Tan",
                     LastName = "Tran",
                     HashedPassword = "hashed_password_1",
-                }
+                },
+                new ()
+                {
+                    Id = new Guid("89a01d1e-11da-427b-b600-c0d9a2c03ca6"),
+                    Email = "tan182207@gmail.com",
+                    FirstName = "Tan",
+                    LastName = "Tran",
+                    HashedPassword = "hashed_password_1",
+                },
             };
             
-            for(int i = 0; i < 1000; i++)
-            {
-                var newUser = new User()
-                {
-                    Id = Guid.NewGuid(),
-                    Email = "tan" + i + "@gmail.com",
-                    FirstName = "Tan" + i,
-                    LastName = "Tran" + i,
-                    HashedPassword = "hashed_password_" + i,
-                };
-                users.Add(newUser);
-            }
+            // for(int i = 0; i < 1000; i++)
+            // {
+            //     var newUser = new User()
+            //     {
+            //         Id = Guid.NewGuid(),
+            //         Email = "tan" + i + "@gmail.com",
+            //         FirstName = "Tan" + i,
+            //         LastName = "Tran" + i,
+            //         HashedPassword = "hashed_password_" + i,
+            //     };
+            //     users.Add(newUser);
+            // }
             
             builder.HasData(users);
         });
@@ -136,8 +145,17 @@ public class AppDbContext : DbContext
                     TaxCode = "TAXCODE123",
                     CompanyName = "ABC Company",
                     CompanyAddress = "123 Main St, Cityville",
+                    // UserId = 
                     UserId = UserId1
-                }
+                },
+                new ()
+                {
+                    Id = Guid.NewGuid(),
+                    TaxCode = "TAXCODE123",
+                    CompanyName = "ABC Company",
+                    CompanyAddress = "123 Main St, Cityville",
+                    UserId = new Guid("89a01d1e-11da-427b-b600-c0d9a2c03ca6"),
+                },
             };
             
             builder.HasData(seller);

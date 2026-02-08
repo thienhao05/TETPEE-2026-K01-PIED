@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TetPee.Repository;
@@ -11,9 +12,11 @@ using TetPee.Repository;
 namespace TetPee.Repository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260208031758_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,7 +47,7 @@ namespace TetPee.Repository.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Carts", (string)null);
+                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("TetPee.Repository.Entity.Category", b =>
@@ -74,7 +77,7 @@ namespace TetPee.Repository.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
 
                     b.HasData(
                         new
@@ -146,7 +149,7 @@ namespace TetPee.Repository.Migrations
                     b.HasIndex("ProductId")
                         .IsUnique();
 
-                    b.ToTable("Inventories", (string)null);
+                    b.ToTable("Inventories");
                 });
 
             modelBuilder.Entity("TetPee.Repository.Entity.Order", b =>
@@ -182,7 +185,7 @@ namespace TetPee.Repository.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("TetPee.Repository.Entity.OrderDetail", b =>
@@ -218,7 +221,7 @@ namespace TetPee.Repository.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderDetails", (string)null);
+                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("TetPee.Repository.Entity.Product", b =>
@@ -258,7 +261,7 @@ namespace TetPee.Repository.Migrations
 
                     b.HasIndex("SellerId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("TetPee.Repository.Entity.ProductCategory", b =>
@@ -288,7 +291,7 @@ namespace TetPee.Repository.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductCategories", (string)null);
+                    b.ToTable("ProductCategories");
                 });
 
             modelBuilder.Entity("TetPee.Repository.Entity.ProductStorage", b =>
@@ -318,7 +321,7 @@ namespace TetPee.Repository.Migrations
 
                     b.HasIndex("StorageId");
 
-                    b.ToTable("ProductStorages", (string)null);
+                    b.ToTable("ProductStorages");
                 });
 
             modelBuilder.Entity("TetPee.Repository.Entity.Seller", b =>
@@ -359,7 +362,7 @@ namespace TetPee.Repository.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Sellers", (string)null);
+                    b.ToTable("Sellers");
 
                     b.HasData(
                         new
@@ -408,7 +411,7 @@ namespace TetPee.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Storages", (string)null);
+                    b.ToTable("Storages");
                 });
 
             modelBuilder.Entity("TetPee.Repository.Entity.User", b =>
@@ -478,7 +481,7 @@ namespace TetPee.Repository.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
 
                     b.HasData(
                         new
