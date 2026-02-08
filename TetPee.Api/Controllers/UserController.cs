@@ -52,9 +52,11 @@ public class UserController : ControllerBase
     public IActionResult GetUsers([FromQuery] string? searchTerm)
     {
         var users = _dbContext.Users.ToList();
+        throw new Exception("Get Users Errors");
         return Ok(users);
         // return Ok("Get all users")
     }
+
 
     //body là mình phải truyền vào 1 object
 
@@ -66,7 +68,7 @@ public class UserController : ControllerBase
         // return Ok(users);
         return Ok(id);
     }
-    
+
     // mặc dù mình ko để FromBody nhưng mà nó vẫn hiểu
     // Tại vì: nó là 1 cái object, class mà object với class thì nó có thực thể so sánh tương đương 
     // với json mà json thì nó chỉ có thể tìm thấy trong body
