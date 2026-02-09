@@ -22,7 +22,7 @@ builder.Services.AddTransient<GlobalExceptionHandlerMiddleware>();
 
 var app = builder.Build();
 
-//trên khai bao dich vu miình xai
+//trên khai báo dịch vụ mình xài
 
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
