@@ -5,8 +5,8 @@ namespace TetPee.Repository;
 
 public class AppDbContext : DbContext
 {
-    public static Guid UserId1 = Guid.NewGuid();
-    public static Guid UserId2 = Guid.NewGuid();
+    public static Guid UserId1 = Guid.NewGuid(); // Seller
+    public static Guid UserId2 = Guid.NewGuid(); // User
 
     public static Guid SellerId1 = Guid.NewGuid();
 
@@ -40,7 +40,7 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // ========== User Configuration ============
+        // ==================== User Configuration ====================
         modelBuilder.Entity<User>(builder =>
         {
             builder.Property(u => u.Email)
@@ -58,6 +58,9 @@ public class AppDbContext : DbContext
             builder.Property(u => u.LastName)
                 .IsRequired()
                 .HasMaxLength(100);
+
+            // builder.Property(u => u.VerifyCode)
+            //     .IsRequired();
 
             // ImageUrl - nullable, max 500 characters (URL)
             builder.Property(u => u.ImageUrl)
@@ -83,7 +86,6 @@ public class AppDbContext : DbContext
                 .HasForeignKey<Seller>(s => s.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            //Casade, delete, Restrict, set null
             // DeleteBehavior.Cascade: Khi một User bị xóa, thì Seller liên quan cũng sẽ bị xóa theo.
             // DeleteBehavior.Restrict: Ngăn chặn việc xóa một User nếu có Seller liên quan tồn tại.
             //(Tham chiếu tới PK tồn tại)
@@ -109,7 +111,15 @@ public class AppDbContext : DbContext
                     FirstName = "Tan",
                     LastName = "Tran",
                     HashedPassword = "hashed_password_1",
-                }
+                },
+                new()
+                {
+                    Id = new Guid("89a01d1e-11da-427b-b600-c0d9a2c03ca6"),
+                    Email = "tan182207@gmail.com",
+                    FirstName = "Tan",
+                    LastName = "Tran",
+                    HashedPassword = "hashed_password_1",
+                },
             };
 
             for (int i = 0; i < 1000; i++)
@@ -127,17 +137,21 @@ public class AppDbContext : DbContext
 
             builder.HasData(users);
         });
+
         modelBuilder.Entity<Seller>(builder =>
         {
             builder.Property(s => s.TaxCode)
                 .IsRequired()
                 .HasMaxLength(50);
+
             builder.Property(s => s.CompanyName)
                 .IsRequired()
-                .HasMaxLength(50);
+                .HasMaxLength(200);
+
             builder.Property(s => s.CompanyAddress)
                 .IsRequired()
-                .HasMaxLength(50);
+                .HasMaxLength(500);
+
             var seller = new List<Seller>()
             {
                 new()
@@ -146,11 +160,22 @@ public class AppDbContext : DbContext
                     TaxCode = "TAXCODE123",
                     CompanyName = "ABC Company",
                     CompanyAddress = "123 Main St, Cityville",
-                    UserId = UserId1,
-                }
+                    // UserId = 
+                    UserId = UserId1
+                },
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    TaxCode = "TAXCODE123",
+                    CompanyName = "ABC Company",
+                    CompanyAddress = "123 Main St, Cityville",
+                    UserId = new Guid("89a01d1e-11da-427b-b600-c0d9a2c03ca6"),
+                },
             };
+
             builder.HasData(seller);
         });
+
         modelBuilder.Entity<Category>(builder =>
         {
             builder.Property(c => c.Name)
@@ -167,7 +192,7 @@ public class AppDbContext : DbContext
                 new()
                 {
                     Id = CategoryParentId2,
-                    Name = "Quần",
+                    Name = "Quẩn",
                 },
                 new()
                 {
@@ -186,32 +211,8 @@ public class AppDbContext : DbContext
                     Id = Guid.NewGuid(),
                     Name = "Quần Jeans",
                     ParentId = CategoryParentId2
-                },
+                }
             };
-
-            for (int i = 0; i < 1000; i++)
-            {
-                if (i % 2 == 0)
-                {
-                    var newCategory = new Category()
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = "Áo" + i,
-                        ParentId = CategoryParentId1
-                    };
-                    categories.Add(newCategory);
-                }
-                else
-                {
-                    var newCategory = new Category()
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = "Quần" + i,
-                        ParentId = CategoryParentId2
-                    };
-                    categories.Add(newCategory);
-                }
-            }
 
             builder.HasData(categories);
         });
@@ -225,12 +226,15 @@ public class AppDbContext : DbContext
             builder.Property(p => p.Description)
                 .IsRequired()
                 .HasMaxLength(1000);
+
             builder.Property(p => p.UrlImage)
                 .IsRequired()
                 .HasMaxLength(500);
+
             builder.Property(p => p.Price)
                 .IsRequired()
                 .HasColumnType("decimal(18,2)");
+
 
             var products = new List<Product>()
             {
@@ -301,7 +305,7 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<OrderDetail>(builder =>
         {
-            var OrderDetails = new List<OrderDetail>()
+            var orderDetails = new List<OrderDetail>()
             {
                 new OrderDetail()
                 {
@@ -317,7 +321,7 @@ public class AppDbContext : DbContext
                     OrderId = OrderId1,
                     ProductId = ProductId2,
                     Quantity = 1,
-                    UnitPrice = 199000m
+                    UnitPrice = 399000m
                 },
                 new OrderDetail()
                 {
@@ -328,7 +332,7 @@ public class AppDbContext : DbContext
                     UnitPrice = 299000m
                 }
             };
-            builder.HasData(OrderDetails);
-        }); 
+            builder.HasData(orderDetails);
+        });
     }
 }
