@@ -12,7 +12,7 @@ using TetPee.Repository;
 namespace TetPee.Repository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260208031758_Initial")]
+    [Migration("20260208040605_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -82,41 +82,41 @@ namespace TetPee.Repository.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9c8c538f-85bc-4636-8873-caf8cb4cfe40"),
+                            Id = new Guid("afdcf741-7282-4325-b9ba-4657b67b7764"),
                             CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Áo"
                         },
                         new
                         {
-                            Id = new Guid("e689951b-cee8-4144-9652-bbbe1c4fd227"),
+                            Id = new Guid("01afd08f-2271-4b17-a5a9-c278db1c4125"),
                             CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Quẩn"
                         },
                         new
                         {
-                            Id = new Guid("1cb1a396-0b89-45f6-8ecb-7b7b35a26c62"),
+                            Id = new Guid("10f6cb61-bd67-43d1-8625-8202c2668159"),
                             CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Áo thể thao",
-                            ParentId = new Guid("9c8c538f-85bc-4636-8873-caf8cb4cfe40")
+                            ParentId = new Guid("afdcf741-7282-4325-b9ba-4657b67b7764")
                         },
                         new
                         {
-                            Id = new Guid("fc941807-92f8-4067-abad-b9caa8f33b0e"),
+                            Id = new Guid("e2eede55-dc66-42a7-ae6c-d91b05051c9a"),
                             CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Áo ba lỗ",
-                            ParentId = new Guid("9c8c538f-85bc-4636-8873-caf8cb4cfe40")
+                            ParentId = new Guid("afdcf741-7282-4325-b9ba-4657b67b7764")
                         },
                         new
                         {
-                            Id = new Guid("dc913c3c-f364-44dd-8018-e3701973938a"),
+                            Id = new Guid("51c01f3d-5407-46da-9439-a877dcf5199e"),
                             CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDeleted = false,
                             Name = "Quần Jeans",
-                            ParentId = new Guid("e689951b-cee8-4144-9652-bbbe1c4fd227")
+                            ParentId = new Guid("01afd08f-2271-4b17-a5a9-c278db1c4125")
                         });
                 });
 
@@ -367,17 +367,17 @@ namespace TetPee.Repository.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("cd5934cf-8699-40d8-bdd1-65f6c17e104c"),
+                            Id = new Guid("ab1b3861-73bc-4c4d-b018-ff71251e8a69"),
                             CompanyAddress = "123 Main St, Cityville",
                             CompanyName = "ABC Company",
                             CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDeleted = false,
                             TaxCode = "TAXCODE123",
-                            UserId = new Guid("7b4cf6f0-7d82-4fc6-b600-9bd2b7f495e8")
+                            UserId = new Guid("165b8049-6d27-42a4-8cc1-5b2db05022d4")
                         },
                         new
                         {
-                            Id = new Guid("84708c31-1357-45d9-a4bd-a51e733966e7"),
+                            Id = new Guid("28dc453e-1350-4c0f-846b-ce68a51f290d"),
                             CompanyAddress = "123 Main St, Cityville",
                             CompanyName = "ABC Company",
                             CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
@@ -463,6 +463,9 @@ namespace TetPee.Repository.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
 
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("text");
+
                     b.Property<string>("Role")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -486,7 +489,7 @@ namespace TetPee.Repository.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("7b4cf6f0-7d82-4fc6-b600-9bd2b7f495e8"),
+                            Id = new Guid("165b8049-6d27-42a4-8cc1-5b2db05022d4"),
                             CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "tan182205@gmail.com",
                             FirstName = "Tan",
@@ -499,7 +502,7 @@ namespace TetPee.Repository.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d6c491e5-19e8-421d-a061-206d73c530b9"),
+                            Id = new Guid("3c0cbcd5-2fee-466a-94f1-03f092a96ca2"),
                             CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "tan182206@gmail.com",
                             FirstName = "Tan",

@@ -66,6 +66,7 @@ namespace TetPee.Repository.Migrations
                     IsVerify = table.Column<bool>(type: "boolean", nullable: false),
                     VerifyCode = table.Column<int>(type: "integer", nullable: false),
                     DateOfBirth = table.Column<string>(type: "text", nullable: true),
+                    RefreshToken = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
@@ -283,18 +284,18 @@ namespace TetPee.Repository.Migrations
                 columns: new[] { "Id", "CreatedAt", "IsDeleted", "Name", "ParentId", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { new Guid("9c8c538f-85bc-4636-8873-caf8cb4cfe40"), new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), false, "Áo", null, null },
-                    { new Guid("e689951b-cee8-4144-9652-bbbe1c4fd227"), new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), false, "Quẩn", null, null }
+                    { new Guid("01afd08f-2271-4b17-a5a9-c278db1c4125"), new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), false, "Quẩn", null, null },
+                    { new Guid("afdcf741-7282-4325-b9ba-4657b67b7764"), new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), false, "Áo", null, null }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Address", "CreatedAt", "DateOfBirth", "Email", "FirstName", "HashedPassword", "ImageUrl", "IsDeleted", "IsVerify", "LastName", "PhoneNumber", "Role", "UpdatedAt", "VerifyCode" },
+                columns: new[] { "Id", "Address", "CreatedAt", "DateOfBirth", "Email", "FirstName", "HashedPassword", "ImageUrl", "IsDeleted", "IsVerify", "LastName", "PhoneNumber", "RefreshToken", "Role", "UpdatedAt", "VerifyCode" },
                 values: new object[,]
                 {
-                    { new Guid("7b4cf6f0-7d82-4fc6-b600-9bd2b7f495e8"), null, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), null, "tan182205@gmail.com", "Tan", "hashed_password_1", null, false, false, "Tran", null, "User", null, 0 },
-                    { new Guid("89a01d1e-11da-427b-b600-c0d9a2c03ca6"), null, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), null, "tan182207@gmail.com", "Tan", "hashed_password_1", null, false, false, "Tran", null, "User", null, 0 },
-                    { new Guid("d6c491e5-19e8-421d-a061-206d73c530b9"), null, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), null, "tan182206@gmail.com", "Tan", "hashed_password_1", null, false, false, "Tran", null, "User", null, 0 }
+                    { new Guid("165b8049-6d27-42a4-8cc1-5b2db05022d4"), null, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), null, "tan182205@gmail.com", "Tan", "hashed_password_1", null, false, false, "Tran", null, null, "User", null, 0 },
+                    { new Guid("3c0cbcd5-2fee-466a-94f1-03f092a96ca2"), null, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), null, "tan182206@gmail.com", "Tan", "hashed_password_1", null, false, false, "Tran", null, null, "User", null, 0 },
+                    { new Guid("89a01d1e-11da-427b-b600-c0d9a2c03ca6"), null, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), null, "tan182207@gmail.com", "Tan", "hashed_password_1", null, false, false, "Tran", null, null, "User", null, 0 }
                 });
 
             migrationBuilder.InsertData(
@@ -302,9 +303,9 @@ namespace TetPee.Repository.Migrations
                 columns: new[] { "Id", "CreatedAt", "IsDeleted", "Name", "ParentId", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { new Guid("1cb1a396-0b89-45f6-8ecb-7b7b35a26c62"), new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), false, "Áo thể thao", new Guid("9c8c538f-85bc-4636-8873-caf8cb4cfe40"), null },
-                    { new Guid("dc913c3c-f364-44dd-8018-e3701973938a"), new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), false, "Quần Jeans", new Guid("e689951b-cee8-4144-9652-bbbe1c4fd227"), null },
-                    { new Guid("fc941807-92f8-4067-abad-b9caa8f33b0e"), new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), false, "Áo ba lỗ", new Guid("9c8c538f-85bc-4636-8873-caf8cb4cfe40"), null }
+                    { new Guid("10f6cb61-bd67-43d1-8625-8202c2668159"), new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), false, "Áo thể thao", new Guid("afdcf741-7282-4325-b9ba-4657b67b7764"), null },
+                    { new Guid("51c01f3d-5407-46da-9439-a877dcf5199e"), new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), false, "Quần Jeans", new Guid("01afd08f-2271-4b17-a5a9-c278db1c4125"), null },
+                    { new Guid("e2eede55-dc66-42a7-ae6c-d91b05051c9a"), new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), false, "Áo ba lỗ", new Guid("afdcf741-7282-4325-b9ba-4657b67b7764"), null }
                 });
 
             migrationBuilder.InsertData(
@@ -312,8 +313,8 @@ namespace TetPee.Repository.Migrations
                 columns: new[] { "Id", "CompanyAddress", "CompanyName", "CreatedAt", "IsDeleted", "TaxCode", "UpdatedAt", "UserId" },
                 values: new object[,]
                 {
-                    { new Guid("84708c31-1357-45d9-a4bd-a51e733966e7"), "123 Main St, Cityville", "ABC Company", new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), false, "TAXCODE123", null, new Guid("89a01d1e-11da-427b-b600-c0d9a2c03ca6") },
-                    { new Guid("cd5934cf-8699-40d8-bdd1-65f6c17e104c"), "123 Main St, Cityville", "ABC Company", new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), false, "TAXCODE123", null, new Guid("7b4cf6f0-7d82-4fc6-b600-9bd2b7f495e8") }
+                    { new Guid("28dc453e-1350-4c0f-846b-ce68a51f290d"), "123 Main St, Cityville", "ABC Company", new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), false, "TAXCODE123", null, new Guid("89a01d1e-11da-427b-b600-c0d9a2c03ca6") },
+                    { new Guid("ab1b3861-73bc-4c4d-b018-ff71251e8a69"), "123 Main St, Cityville", "ABC Company", new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), false, "TAXCODE123", null, new Guid("165b8049-6d27-42a4-8cc1-5b2db05022d4") }
                 });
 
             migrationBuilder.CreateIndex(
