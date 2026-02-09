@@ -45,18 +45,9 @@ public class UserController : ControllerBase
     [HttpGet("")]
     public IActionResult GetUsers([FromQuery] string? searchTerm)
     {
-        try
-        {
-            var users = _dbContext.Users.ToList();
-            throw new Exception("Loi tu Database");
-            return Ok(users);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-        }
-
-        return Ok();
+        var users = _dbContext.Users.ToList();
+        throw new Exception("Get Users Error");
+        return Ok(users);
     }
     
     [HttpGet("{id}")]
