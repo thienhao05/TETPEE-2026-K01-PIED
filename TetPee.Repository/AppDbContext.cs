@@ -20,6 +20,10 @@ public class AppDbContext : DbContext
 
     public static Guid OrderId1 = Guid.NewGuid();
     public static Guid OrderId2 = Guid.NewGuid();
+    
+    public static Guid StorageId1 = Guid.NewGuid();
+    public static Guid StorageId2 = Guid.NewGuid();
+    
 
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
@@ -333,6 +337,106 @@ public class AppDbContext : DbContext
                 }
             };
             builder.HasData(orderDetails);
+        });
+
+        modelBuilder.Entity<ProductCategory>(builder =>
+        {
+            var productCategories = new List<ProductCategory>()
+            {
+                new ProductCategory()
+                {
+                    Id = Guid.NewGuid(),
+                    CategoryId = CategoryParentId1,
+                    ProductId = ProductId1,
+                },
+                new ProductCategory()
+                {
+                    Id = Guid.NewGuid(),
+                    CategoryId = CategoryParentId2,
+                    ProductId = ProductId2,
+                }
+            };
+            builder.HasData(productCategories);
+        });
+
+        modelBuilder.Entity<Storage>(builder =>
+        {
+            var storages = new List<Storage>()
+            {
+                new Storage()
+                {
+                    Id = StorageId1,
+                    Price = 99999,
+                    Type = "Export"
+                },
+                new Storage()
+                {
+                    Id = StorageId2,
+                    Price = 3000,
+                    Type = "Import"
+                }
+            };
+            builder.HasData(storages);
+        });
+
+        modelBuilder.Entity<ProductStorage>(builder =>
+        {
+            var productStorages = new List<ProductStorage>()
+            {
+                new ProductStorage()
+                {
+                    Id = Guid.NewGuid(),
+                    StorageId = StorageId1,
+                    ProductId = ProductId1,
+                },
+                new ProductStorage()
+                {
+                    Id = Guid.NewGuid(),
+                    StorageId = StorageId2,
+                    ProductId = ProductId2,
+                }
+            };
+            builder.HasData(productStorages);
+        });
+
+        modelBuilder.Entity<Inventory>(builder =>
+        {
+            var inventories = new List<Inventory>()
+            {
+                new Inventory()
+                {
+                    Id = Guid.NewGuid(),
+                    ProductId = ProductId1,
+                    TotalInStock = 12,
+                    TotalSell = 123
+                },
+                new Inventory()
+                {
+                    Id = Guid.NewGuid(),
+                    ProductId = ProductId2,
+                    TotalInStock = 12,
+                    TotalSell = 123
+                }
+            };
+            builder.HasData(inventories);
+        });
+
+        modelBuilder.Entity<Cart>(builder =>
+        {
+            var carts = new List<Cart>()
+            {
+                new Cart()
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = UserId1,
+                },
+                new Cart()
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = UserId2,
+                }
+            };
+            builder.HasData(carts);
         });
     }
 }

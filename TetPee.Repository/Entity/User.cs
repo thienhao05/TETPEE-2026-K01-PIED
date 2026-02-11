@@ -18,6 +18,7 @@ public class User: BaseEntity<Guid>, IAuditableEntity
     public string? DateOfBirth { get; set; } = null;
     public string? RefreshToken { get; set; } = null; //này muốn trong database thành int4
     
+    public Cart? Cart { get; set; }
     public Seller? Seller { get; set; }
     public ICollection<Order> Orders { get; set; } = new List<Order>();
     
