@@ -10,11 +10,13 @@ namespace TetPee.Api.Controllers;
 public class UserController : ControllerBase
 {
     private readonly AppDbContext _dbContext;
+    private readonly IService _userService;
     // cai nay nang cao luc sau se giai thich
 
-    public UserController(AppDbContext dbContext)
+    public UserController(AppDbContext dbContext,  IService userService)
     {
         _dbContext = dbContext;
+        _userService = userService;
     }
     
     // HTTP METHOD: GET, POST, DELETE, PUT, PATCH
@@ -43,19 +45,24 @@ public class UserController : ControllerBase
     // delete user by id: DELETE http://localhost:5000/User/{id}
     
     [HttpGet("")]
-    public IActionResult GetUsers([FromQuery] string? searchTerm)
+    public async Task<IActionResult> GetUsers(string? searchTerm, int pageSize = 10, int pageIndex = 1)
     {
-        var users = _dbContext.Users.ToList();
-        throw new Exception("Get Users Error");
+        var users = await _userService.GetUsers(searchTerm, pageSize, pageIndex);
+        // throw new Exception("Get Users Error");
         return Ok(users);
+        // var users = _dbContext.Users.ToList();
+        // // throw new Exception("Get Users Error");
+        // return Ok(users);
     }
     
     [HttpGet("{id}")]
-    public IActionResult GetUserById([FromRoute] Guid id)
+    public async Task<IActionResult> GetUserById(Guid id)
     {
         // var users = _dbContext.Users.ToList();
         // return Ok(users);
-        return Ok(id);
+        // return Ok(id);
+        var user = await _userService.GetUserById(id);
+        return Ok(user);
     }
     
     [HttpPut("{id}")]
