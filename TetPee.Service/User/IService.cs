@@ -2,10 +2,10 @@ namespace TetPee.Service.User;
 
 public interface IService
 {
-    public Task<Base.Response.PageResult<Response.GetUserResponse>> GetUsers(
+    public Task<Base.Response.PageResult<Response.GetUsersResponse>> GetUsers(
         string? searchTerm,
         int pageSize,
         int pageIndex);
     
-    public Task<Response.GetUserResponse?> GetUserById(Guid id);
+    public Task<Response.GetUsersResponse?> GetUserById(Guid id);
 }

@@ -13,7 +13,7 @@ public class Service: IService
         _dbContext = dbContext;
     }
     
-    public async Task<Base.Response.PageResult<Response.GetUserResponse>> GetUsers(
+    public async Task<Base.Response.PageResult<Response.GetUsersResponse>> GetUsers(
         string? searchTerm, 
         int pageSize, 
         int pageIndex)
@@ -35,7 +35,7 @@ public class Service: IService
             .Take(pageSize);
         
         var selectedQuery = query
-            .Select(x => new Response.GetUserResponse()
+            .Select(x => new Response.GetUsersResponse()
             {
                 Id = x.Id,
                 Email = x.Email,
@@ -51,7 +51,7 @@ public class Service: IService
         var listResult = await selectedQuery.ToListAsync();
         var totalItems = listResult.Count();
 
-        var result = new Base.Response.PageResult<Response.GetUserResponse>()
+        var result = new Base.Response.PageResult<Response.GetUsersResponse>()
         {
             Items = listResult,
             PageIndex = pageIndex,
@@ -62,12 +62,12 @@ public class Service: IService
         return result;
     }
 
-    public async Task<Response.GetUserResponse?> GetUserById(Guid id)
+    public async Task<Response.GetUsersResponse?> GetUserById(Guid id)
     {
         var query = _dbContext.Users.Where(x => x.Id == id);
         
         var selectedQuery = query
-            .Select(x => new Response.GetUserResponse()
+            .Select(x => new Response.GetUsersResponse()
             {
                 Id = x.Id,
                 Email = x.Email,
