@@ -142,15 +142,32 @@ public class AppDbContext : DbContext
 
             for (int i = 0; i < 1000; i++)
             {
-                var newUser = new User()
+                if (i % 2 == 0)
                 {
-                    Id = Guid.NewGuid(),
-                    Email = "tan" + i + "@gmail.com",
-                    FirstName = "Tan" + i,
-                    LastName = "Tran" + i,
-                    HashedPassword = "hashed_password_" + i,
-                };
-                users.Add(newUser);
+                    var newUser = new User()
+                    {
+                        Id = Guid.NewGuid(),
+                        Email = "tan" + i + "@gmail.com",
+                        FirstName = "Tan" + i,
+                        LastName = "Tran" + i,
+                        HashedPassword = "hashed_password_" + i,
+                        Role = "User"
+                    };
+                    users.Add(newUser);
+                }
+                else
+                {
+                    var newUser = new User()
+                    {
+                        Id = Guid.NewGuid(),
+                        Email = "tan" + i + "@gmail.com",
+                        FirstName = "Tan" + i,
+                        LastName = "Tran" + i,
+                        HashedPassword = "hashed_password_" + i,
+                        Role = "Seller"
+                    };
+                    users.Add(newUser);
+                }
             }
 
             builder.HasData(users);

@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using TetPee.Repository;
 
 namespace TetPee.Service.Category;
@@ -11,13 +12,41 @@ public class CategoryService : ICategoryService
         _dbContext = dbContext;
     }
 
-    public Task<List<CategoryResponse.GetCategoriesResponse>> GetCategories(string? searchTerm)
+    public async Task<List<CategoryResponse.GetCategoriesResponse>> GetCategories(string? searchTerm)
     {
-        throw new NotImplementedException();
+        var query = _dbContext.Categories.Where(x => true);
+        
+        if (searchTerm != null)
+        {
+            query = query.Where(x => x.Name.Contains(searchTerm));
+        }
+        query = query.OrderBy(x => x.Name);
+
+        var seletedQuery = query
+            .Select(x => new CategoryResponse.GetCategoriesResponse()
+            {
+                Id = x.Id,
+                Name = x.Name
+            });
+        
+        var result = await seletedQuery.ToListAsync();
+        return  result;
     }
 
-    public Task<List<CategoryResponse.GetCategoriesResponse>> GetCategoryByParentId(Guid parentId)
+    public async Task<List<CategoryResponse.GetCategoriesResponse>> GetCategoryByParentId(Guid parentId)
     {
-        throw new NotImplementedException();
+        var query = _dbContext.Categories.Where(x => x.ParentId == parentId);
+        
+        query = query.OrderBy(x => x.Name);
+
+        var selectedQuery = query
+            .Select(x => new CategoryResponse.GetCategoriesResponse()
+            {
+                Id = x.Id,
+                Name = x.Name
+            });
+        
+        var result = await selectedQuery.ToListAsync();
+        return result;
     }
 }
