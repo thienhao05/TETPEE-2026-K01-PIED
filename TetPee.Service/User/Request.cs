@@ -2,6 +2,7 @@ namespace TetPee.Service.User;
 
 public class Request
 {
+    //Request chỉ chứa field cần gửi
     //thằng nào xài body thì mình mới cho thằng này vào, kiếm thằng post
     public class CreateUserRequest
     {
