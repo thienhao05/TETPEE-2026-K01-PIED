@@ -1,7 +1,16 @@
 using Microsoft.EntityFrameworkCore;
 using TetPee.Api.Middlewares;
 using TetPee.Repository;
-using TetPee.Service.User;
+using UserService = TetPee.Service.User;
+using CategoryService = TetPee.Service.Category;
+using SellerService = TetPee.Service.Seller;
+using IdentityService = TetPee.Service.Identity;
+
+/*
+ * tại vì sao mà mình phải dùng cái này ?
+ * Nếu như mình đề IService với Service
+ * Bị trùng nhiều quá chấm nhiều xấu
+ */
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +28,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     )
 );
 
-builder.Services.AddScoped<IService, Service>();
+
+//khai báo cho tối ưu hơn
+builder.Services.AddScoped<UserService.IService, UserService.Service>();
+builder.Services.AddScoped<CategoryService.IService, CategoryService.Service>();
+builder.Services.AddScoped<SellerService.IService, SellerService.Service>();
+builder.Services.AddScoped<IdentityService.IService, IdentityService.Service>();
 
 builder.Services.AddTransient<GlobalExceptionHandlerMiddleware>();
 
