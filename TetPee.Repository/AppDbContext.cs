@@ -7,22 +7,24 @@ public class AppDbContext : DbContext
 {
     public static Guid UserId1 = Guid.NewGuid(); // Seller
     public static Guid UserId2 = Guid.NewGuid(); // User
-    
+
     public static Guid SellerId1 = Guid.NewGuid();
-    
+
     public static Guid CategoryParentId1 = Guid.NewGuid();
     public static Guid CategoryParentId2 = Guid.NewGuid();
-    
+
     public static Guid ProductId1 = Guid.NewGuid();
     public static Guid ProductId2 = Guid.NewGuid();
     public static Guid ProductId3 = Guid.NewGuid();
     public static Guid ProductId4 = Guid.NewGuid();
-    
+
     public static Guid OrderId1 = Guid.NewGuid();
     public static Guid OrderId2 = Guid.NewGuid();
-    
+
     public AppDbContext(DbContextOptions<AppDbContext> options)
-        : base(options) { }
+        : base(options)
+    {
+    }
 
     public DbSet<User> Users { get; set; }
     public DbSet<Seller> Sellers { get; set; }
@@ -44,14 +46,14 @@ public class AppDbContext : DbContext
             builder.Property(u => u.Email)
                 .IsRequired()
                 .HasMaxLength(255);
-            
+
             builder.HasIndex(u => u.Email)
                 .IsUnique();
-            
+
             builder.Property(u => u.FirstName)
                 .IsRequired()
                 .HasMaxLength(100);
-            
+
             // LastName - required, max 100 characters
             builder.Property(u => u.LastName)
                 .IsRequired()
@@ -59,42 +61,42 @@ public class AppDbContext : DbContext
 
             // builder.Property(u => u.VerifyCode)
             //     .IsRequired();
-            
+
             // ImageUrl - nullable, max 500 characters (URL)
             builder.Property(u => u.ImageUrl)
                 .HasMaxLength(500);
-            
+
             // PhoneNumber - nullable, max 20 characters
             builder.Property(u => u.PhoneNumber)
                 .HasMaxLength(20);
-            
+
             // HashedPassword - required, max 500 characters
             builder.Property(u => u.HashedPassword)
                 .IsRequired()
                 .HasMaxLength(500);
-            
+
             builder.Property(u => u.Role)
                 .IsRequired()
                 .HasMaxLength(20)
                 .HasDefaultValue("User");
-            
+
             // Relationship: User has one Seller (one-to-one)
             builder.HasOne(u => u.Seller)
                 .WithOne(s => s.User)
                 .HasForeignKey<Seller>(s => s.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
-            
+
             // DeleteBehavior.Cascade: Khi một User bị xóa, thì Seller liên quan cũng sẽ bị xóa theo.
             // DeleteBehavior.Restrict: Ngăn chặn việc xóa một User nếu có Seller liên quan tồn tại.
-                //(Tham chiếu tới PK tồn tại)
-                // 1 Project còn Task thì không xoá được
+            //(Tham chiếu tới PK tồn tại)
+            // 1 Project còn Task thì không xoá được
             // DeleteBehavior.NoAction: Không thực hiện hành động gì đặc biệt khi User bị xóa. ( Gàn giống Restrict, xử lí ở DB)
             // DeleteBehavior.SetNull: Khi một User bị xóa, thì trường UserId trong bảng Seller sẽ được đặt thành NULL.
-                //(Áp dụng khi trường FK cho phép NULL)
+            //(Áp dụng khi trường FK cho phép NULL)
 
             List<User> users = new List<User>()
             {
-                new ()
+                new()
                 {
                     Id = UserId1,
                     Email = "tan182205@gmail.com",
@@ -102,15 +104,15 @@ public class AppDbContext : DbContext
                     LastName = "Tran",
                     HashedPassword = "hashed_password_1",
                 },
-                new ()
+                new()
                 {
                     Id = UserId2,
                     Email = "tan182206@gmail.com",
                     FirstName = "Tan",
                     LastName = "Tran",
                     HashedPassword = "hashed_password_1",
-                }
-                ,new ()
+                },
+                new()
                 {
                     Id = new Guid("0101b85c-b450-4bb9-8226-0d02b0eb6e03"),
                     Email = "tan182207@gmail.com",
@@ -118,10 +120,9 @@ public class AppDbContext : DbContext
                     LastName = "Tran",
                     HashedPassword = "hashed_password_1",
                 },
-                
             };
-            
-            for(int i = 0; i < 1000; i++)
+
+            for (int i = 0; i < 1000; i++)
             {
                 var newUser = new User()
                 {
@@ -133,27 +134,27 @@ public class AppDbContext : DbContext
                 };
                 users.Add(newUser);
             }
-            
+
             builder.HasData(users);
         });
-        
+
         modelBuilder.Entity<Seller>(builder =>
         {
             builder.Property(s => s.TaxCode)
                 .IsRequired()
                 .HasMaxLength(50);
-            
+
             builder.Property(s => s.CompanyName)
                 .IsRequired()
                 .HasMaxLength(200);
-            
+
             builder.Property(s => s.CompanyAddress)
                 .IsRequired()
                 .HasMaxLength(500);
 
             var seller = new List<Seller>()
             {
-                new ()
+                new()
                 {
                     Id = SellerId1,
                     TaxCode = "TAXCODE123",
@@ -162,7 +163,7 @@ public class AppDbContext : DbContext
                     // UserId = 
                     UserId = UserId1
                 },
-                new ()
+                new()
                 {
                     Id = Guid.NewGuid(),
                     TaxCode = "TAXCODE123",
@@ -171,7 +172,7 @@ public class AppDbContext : DbContext
                     UserId = new Guid("0101b85c-b450-4bb9-8226-0d02b0eb6e03")
                 }
             };
-            
+
             builder.HasData(seller);
         });
 
@@ -180,56 +181,56 @@ public class AppDbContext : DbContext
             builder.Property(c => c.Name)
                 .IsRequired()
                 .HasMaxLength(100);
-            
+
             var categories = new List<Category>()
             {
-                new ()
+                new()
                 {
                     Id = CategoryParentId1,
                     Name = "Áo",
                 },
-                new ()
+                new()
                 {
                     Id = CategoryParentId2,
                     Name = "Quẩn",
                 },
-                new ()
+                new()
                 {
                     Id = Guid.NewGuid(),
                     Name = "Áo thể thao",
                     ParentId = CategoryParentId1
                 },
-                new ()
+                new()
                 {
                     Id = Guid.NewGuid(),
                     Name = "Áo ba lỗ",
                     ParentId = CategoryParentId1
                 },
-                new ()
+                new()
                 {
-                Id = Guid.NewGuid(),
-                Name = "Quần Jeans",
-                ParentId = CategoryParentId2
-            }
+                    Id = Guid.NewGuid(),
+                    Name = "Quần Jeans",
+                    ParentId = CategoryParentId2
+                }
             };
-            
+
             builder.HasData(categories);
         });
-        
+
         modelBuilder.Entity<Product>(builder =>
         {
             builder.Property(p => p.Name)
                 .IsRequired()
                 .HasMaxLength(200);
-            
+
             builder.Property(p => p.Description)
                 .IsRequired()
                 .HasMaxLength(1000);
-            
+
             builder.Property(p => p.UrlImage)
                 .IsRequired()
                 .HasMaxLength(500);
-            
+
             builder.Property(p => p.Price)
                 .HasColumnType("decimal(18,2)")
                 .IsRequired();
@@ -240,7 +241,8 @@ public class AppDbContext : DbContext
                 {
                     Id = ProductId1,
                     Name = "Áo Thun Nam",
-                    Description = "Áo thun nam chất liệu cotton cao cấp, thoáng mát, phù hợp cho mọi hoạt động hàng ngày.",
+                    Description =
+                        "Áo thun nam chất liệu cotton cao cấp, thoáng mát, phù hợp cho mọi hoạt động hàng ngày.",
                     UrlImage = "https://example.com/images/ao_thun_nam.jpg",
                     Price = 199000m,
                     SellerId = SellerId1
@@ -273,7 +275,7 @@ public class AppDbContext : DbContext
                     SellerId = SellerId1
                 }
             };
-            
+
             builder.HasData(products);
         });
 
@@ -298,10 +300,10 @@ public class AppDbContext : DbContext
                     Status = "Completed"
                 }
             };
-            
+
             builder.HasData(orders);
         });
-        
+
         modelBuilder.Entity<OrderDetail>(builder =>
         {
             var orderDetails = new List<OrderDetail>()
@@ -331,7 +333,7 @@ public class AppDbContext : DbContext
                     UnitPrice = 299000m
                 }
             };
-            
+
             builder.HasData(orderDetails);
         });
     }
