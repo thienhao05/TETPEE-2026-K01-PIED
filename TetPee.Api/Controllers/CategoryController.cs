@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TetPee.Service.Category;
 
 namespace TetPee.Api.Controllers;
+
 
 [ApiController]
 [Route("[controller]")]
@@ -13,7 +15,8 @@ public class CategoryController: ControllerBase
     {
         _categoryService = categoryService;
     }
-
+    
+    [Authorize]
     [HttpGet("")]
     public async Task<IActionResult> GetCategory()
     {
@@ -27,5 +30,4 @@ public class CategoryController: ControllerBase
         var result = await _categoryService.GetChildrenByCategoryId(parentId);
         return Ok(result);
     }
-    
 }
