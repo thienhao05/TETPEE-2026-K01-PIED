@@ -3,6 +3,8 @@ using TetPee.Repository;
 using TetPee.Repository.Entity;
 using TetPee.Service.User;
 
+using MediaService = TetPee.Service.MediaService;
+
 namespace TetPee.Api.Controllers;
 
 [ApiController]
@@ -10,13 +12,16 @@ namespace TetPee.Api.Controllers;
 public class UserController : ControllerBase
 {
     private readonly AppDbContext _dbContext;
-    private readonly IService _userService;
     // cai nay nang cao luc sau se giai thich
 
-    public UserController(AppDbContext dbContext,  IService userService)
+    private readonly IService _userService;
+    private readonly MediaService.IService _mediaService;
+    
+    public UserController(AppDbContext dbContext, IService userService, MediaService.IService mediaService)
     {
         _dbContext = dbContext;
         _userService = userService;
+        _mediaService = mediaService;
     }
     
     // HTTP METHOD: GET, POST, DELETE, PUT, PATCH
@@ -48,19 +53,12 @@ public class UserController : ControllerBase
     public async Task<IActionResult> GetUsers(string? searchTerm, int pageSize = 10, int pageIndex = 1)
     {
         var users = await _userService.GetUsers(searchTerm, pageSize, pageIndex);
-        // throw new Exception("Get Users Error");
         return Ok(users);
-        // var users = _dbContext.Users.ToList();
-        // // throw new Exception("Get Users Error");
-        // return Ok(users);
     }
     
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUserById(Guid id)
     {
-        // var users = _dbContext.Users.ToList();
-        // return Ok(users);
-        // return Ok(id);
         var user = await _userService.GetUserById(id);
         return Ok(user);
     }
@@ -82,7 +80,7 @@ public class UserController : ControllerBase
     }
     
     [HttpPost("")]
-    public IActionResult CreateUsers([FromBody] Request.CreateUserRequest request)
+    public async Task<IActionResult> CreateUsers([FromForm] Request.CreateUserRequest request, CancellationToken cancellationToken)
     {
         var user = new User()
         {
@@ -92,10 +90,26 @@ public class UserController : ControllerBase
             HashedPassword = request.Password // Chưa hash, chỉ demo
         };
         
+        if(request.Avatar != null)
+        {
+            var media = await _mediaService.UploadImageAsync(request.Avatar);
+            user.ImageUrl = media;
+        }
+        
         _dbContext.Users.Add(user);
         
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync(cancellationToken);
         
         return Ok("Create user successfully");
     }
 }
+
+// Get all Category (Không phân trang, short theo bảng chữ cái của Name),
+                // và Map ra response như sau (Id, Name)
+// Get all Children Category By Category Id, (Không phân trang, short theo bảng chữ cái của Name),
+                // và Map ra response như sau (Id, Name)
+// Get all Seller tồn tại trong Hệ thống (Phân trang, sort theo bảng chữ cái, cho phép tìm kiếm theo Tên)
+                // (Email, FirstName, LastName, ImageUrl, TaxCode, CompanyName)
+// Get detail Seller By Id 
+                // và Map ra response như sau (Email, FirstName, LastName, ImageUrl, PhoneNumber,
+                                 // Address, DateOfBirth, TaxCode, CompanyName, CompanyAddress)
