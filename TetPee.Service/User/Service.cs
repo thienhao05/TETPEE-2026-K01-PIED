@@ -6,7 +6,6 @@ namespace TetPee.Service.User;
 public class Service: IService
 {
     private readonly AppDbContext _dbContext;
-    private IService _serviceImplementation;
 
     public Service(AppDbContext dbContext)
     {
