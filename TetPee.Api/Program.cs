@@ -9,6 +9,7 @@ using CategoryService = TetPee.Service.Category;
 using SellerService = TetPee.Service.Seller;
 using IdentityService = TetPee.Service.Identity;
 using JwtService = TetPee.Service.JwtService;
+using ProductService = TetPee.Service.Product;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +34,7 @@ builder.Services.AddScoped<CategoryService.IService, CategoryService.Service>();
 builder.Services.AddScoped<SellerService.IService, SellerService.Service>();
 builder.Services.AddScoped<JwtService.IService, JwtService.Service>();
 builder.Services.AddScoped<IdentityService.IService, IdentityService.Service>();
+builder.Services.AddScoped<ProductService.IService, ProductService.Service>();
 
 builder.Services.AddTransient<GlobalExceptionHandlerMiddleware>();
 

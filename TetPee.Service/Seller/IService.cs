@@ -6,6 +6,9 @@ public interface IService
         string? searchTerm,
         int pageSize,
         int pageIndex);
+    
+    public Task<Response.GetSellerByIdResponse?> GetSellerById(
+        Guid id);
 
-    public Task<Response.GetSellerByIdResponse?> GetSellerById(Guid id);
+    public Task<string> CreateSeller(Request.CreateSellerRequest request);
 }
