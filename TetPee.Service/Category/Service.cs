@@ -27,6 +27,7 @@ public class Service : IService
             });
 
         var listResult = await selectedQuery.ToListAsync();
+        // throw new Exception("hehe demo");
         return listResult;
     }
 

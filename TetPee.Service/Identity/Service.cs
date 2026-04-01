@@ -22,6 +22,7 @@ public class Service : IService
     public async Task<Response.IdentityResponse> Login(string email, string password)
     {
         var user = await _dbContext.Users
+            .Include(x => x.Seller)
             .FirstOrDefaultAsync(u => u.Email == email);
 
         if (user == null)
@@ -34,6 +35,7 @@ public class Service : IService
             throw new Exception("Invalid password");
         }
         
+        
         var claims = new List<Claim>
         {
             new Claim("UserId", user.Id.ToString()),
@@ -44,6 +46,16 @@ public class Service : IService
             new Claim(ClaimTypes.Expired, 
                 DateTimeOffset.UtcNow.AddMinutes(_jwtOption.ExpireMinutes).ToString()),
         };
+        
+        if (user.Role == "Seller")
+        {
+            // var seller = await  _dbContext.Sellers.FirstOrDefaultAsync(x => x.UserId == user.Id);
+            // if (seller != null)
+            // {
+            //     claims.Add(new Claim("SellerId", seller.Id.ToString()));
+            // }
+            claims.Add(new Claim("SellerId", user.Seller!.Id.ToString()));
+        }
         
         var token = _jwtService.GenerateAccessToken(claims);
         
