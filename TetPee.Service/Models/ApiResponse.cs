@@ -5,15 +5,14 @@ public class ApiResponse
     public bool Success { get; set; }
     public string Message { get; set; } = null!;
     public object? Data { get; set; }
-    public object? Error { get; set; }
+    public object? Errors { get; set; }
     public string? TraceId { get; set; }
     public DateTime TimestampUtc { get; set; }
 }
 
 public static class ApiResponseFactory
 {
-    public static ApiResponse SuccessResponse(object? data, string message = "Request processed successfully",
-        string? traceId = null)
+    public static ApiResponse SuccessResponse(object? data, string message = "Request processed successfully", string? traceId = null)
     {
         return new ApiResponse
         {
@@ -31,11 +30,9 @@ public static class ApiResponseFactory
         {
             Success = false,
             Message = message,
-            Error = errors,
+            Errors = errors,
             TraceId = traceId,
             TimestampUtc = DateTime.UtcNow
         };
     }
-
-
 }

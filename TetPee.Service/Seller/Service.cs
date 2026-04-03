@@ -157,11 +157,11 @@ public class Service : IService
             await _mailService.SendMail(new MailContent()
             {
                 To = request.Email,
-                Subject = "Welcome to Tetpee",
-                Body = $"Dear {request.FirstName} {request.LastName}, \n\n" +
-                       "Thank you for registering as a seller on TetPee." +
+                Subject = "Welcome to TetPee",
+                Body = $"Dear {request.FirstName} {request.LastName},\n\n" +
+                       "Thank you for registering as a seller on TetPee. We are excited to have you on board and look forward to a successful partnership.\n\n" +
                        "Best regards,\n" +
-                       "The Tetpee"
+                       "The TetPee Team"
             });
 
             if (sellerResult > 0) return "Add Seller successfully";
