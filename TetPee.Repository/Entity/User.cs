@@ -19,6 +19,8 @@ public class User: BaseEntity<Guid>, IAuditableEntity
     public string? RefreshToken { get; set; } = null; //này muốn trong database thành int4
     
     public Seller? Seller { get; set; }
+    public Cart Cart { get; set; }
+    
     public ICollection<Order> Orders { get; set; } = new List<Order>();
     
     public DateTimeOffset CreatedAt { get; set; }

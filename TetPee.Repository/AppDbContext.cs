@@ -32,6 +32,7 @@ public class AppDbContext : DbContext
     public DbSet<ProductStorage> ProductStorages { get; set; }
     public DbSet<Storage> Storages { get; set; }
     public DbSet<Cart> Carts { get; set; }
+    public DbSet<CartDetail> CartDetails { get; set; }
     public DbSet<Inventory> Inventories { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderDetail> OrderDetails { get; set; }
@@ -84,6 +85,11 @@ public class AppDbContext : DbContext
             builder.HasOne(u => u.Seller)
                 .WithOne(s => s.User)
                 .HasForeignKey<Seller>(s => s.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            builder.HasOne(u => u.Cart)
+                .WithOne(s => s.User)
+                .HasForeignKey<Cart>(s => s.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             // DeleteBehavior.Cascade: Khi một User bị xóa, thì Seller liên quan cũng sẽ bị xóa theo.
@@ -336,5 +342,11 @@ public class AppDbContext : DbContext
 
             builder.HasData(orderDetails);
         });
+
+        // modelBuilder.Entity<Cart>(builder =>
+        // {
+        //     builder.HasOne(u => u.User)
+        //         .WithOne(s => s.Cart);
+        // });
     }
 }
