@@ -7,10 +7,10 @@ public class CartDetail : BaseEntity<Guid>, IAuditableEntity
     public Guid CartId { get; set; }
     public Cart Cart { get; set; }
     
-    //1 OrderDetail có nhiều Product
     public Guid ProductId { get; set; }
     public Product Product { get; set; }
-    public int Quantity { get; set; } 
+ 
+    public int Quantity { get; set; } //này rất quan trọng
     
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset? UpdatedAt { get; set; }

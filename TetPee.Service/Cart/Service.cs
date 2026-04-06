@@ -15,24 +15,24 @@ public class Service : IService
         _dbContext = dbContext;
         _httpContext = httpContext;
     }
-
     public async Task CreateCart()
     {
         var userId = _httpContext.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value;
 
         var userIdGuid = Guid.Parse(userId!);
-
+        
         var query = _dbContext.Carts.Where(x => x.UserId == userIdGuid);
 
         var isExist = await query.AnyAsync();
-        if (isExist)
+
+        if(isExist)
         {
             throw new Exception("Cart already exist");
         }
 
         var cart = new Repository.Entity.Cart()
         {
-            UserId = userIdGuid,
+            UserId = userIdGuid
         };
 
         _dbContext.Add(cart);
@@ -44,42 +44,43 @@ public class Service : IService
         var userId = _httpContext.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value;
 
         var userIdGuid = Guid.Parse(userId!);
-
+        
         var query = _dbContext.Carts.Where(x => x.UserId == userIdGuid);
 
         var cart = await query.FirstOrDefaultAsync();
 
-        if (cart == null)
+        if(cart == null)
         {
             // throw new Exception("Cart not exist");
             cart = new Repository.Entity.Cart()
             {
                 Id = Guid.NewGuid(),
-                UserId = userIdGuid,
+                UserId = userIdGuid
             };
 
             _dbContext.Add(cart);
             await _dbContext.SaveChangesAsync();
         }
-
-        var productQuery = _dbContext.CartDetails
-            .Where(x => x.CartId == cart.Id && x.ProductId == request.ProductId);
         
+        var productQuery = _dbContext.CartDetails.Where(
+            x => x.CartId == cart.Id && x.ProductId == request.ProductId);
+
         var cartExist = await productQuery.FirstOrDefaultAsync();
 
-        if (cartExist != null)
+        if(cartExist != null)
         {
             cartExist.Quantity += request.Quantity;
             _dbContext.Update(cartExist);
             await _dbContext.SaveChangesAsync();
             return;
         }
-
+        
+        //cart chưa tồn tại thì tạo mới
         var cartDetail = new CartDetail()
         {
             CartId = cart.Id,
             ProductId = request.ProductId,
-            Quantity = request.Quantity,
+            Quantity = request.Quantity
         };
 
         _dbContext.Add(cartDetail);
@@ -89,10 +90,22 @@ public class Service : IService
     public async Task RemoveProductFromCart(Request.RemoveProductFromCartRequest request)
     {
         var userId = _httpContext.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value;
+        
         var userIdGuid = Guid.Parse(userId!);
-        var query = _dbContext.CartDetails
-            .Where(x => x.Cart.UserId == userIdGuid && x.ProductId == request.ProductId);
+        /* Xuống DB 2 lần
+        var cartQuery = _dbContext.Carts.Where(x => x.UserId == userIdGuid);
+
+        var cart = await cartQuery.FirstOrDefaultAsync();
+
+        var query = _dbContext.CartDetails.Where(
+            x => x.CartId == cart.Id && x.ProductId == request.ProductId);
+         */
+        
+        var query = _dbContext.CartDetails.Where(
+            x => x.Cart.UserId == userIdGuid && x.ProductId == request.ProductId);
+
         var cartDetail = await query.FirstOrDefaultAsync();
+
         if (cartDetail == null)
         {
             throw new Exception("Product not exist in cart");
@@ -101,16 +114,15 @@ public class Service : IService
         _dbContext.Remove(cartDetail);
         await _dbContext.SaveChangesAsync();
     }
-
+    
     public async Task<List<Response.ProductResponse>> GetCart()
     {
         var userId = _httpContext.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value;
+
         var userIdGuid = Guid.Parse(userId!);
 
-        var query = _dbContext.CartDetails
-            .Where(x => x.Cart.UserId == userIdGuid)
-            .Include(x => x.Product)
-            .Select(x => new Response.ProductResponse
+        var query = _dbContext.CartDetails.Where(x => x.Cart.UserId == userIdGuid)
+            .Select(x => new Response.ProductResponse()
             {
                 Name = x.Product.Name,
                 Description = x.Product.Description,
@@ -120,6 +132,7 @@ public class Service : IService
             });
 
         var result = await query.ToListAsync();
+
         return result;
     }
 }

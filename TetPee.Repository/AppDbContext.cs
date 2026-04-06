@@ -32,12 +32,12 @@ public class AppDbContext : DbContext
     public DbSet<ProductStorage> ProductStorages { get; set; }
     public DbSet<Storage> Storages { get; set; }
     public DbSet<Cart> Carts { get; set; }
-    public DbSet<CartDetail> CartDetails { get; set; }
     public DbSet<Inventory> Inventories { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderDetail> OrderDetails { get; set; }
     public DbSet<ProductCategory> ProductCategories { get; set; }
     public DbSet<Category> Categories { get; set; }
+    public DbSet<CartDetail> CartDetails { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -342,11 +342,26 @@ public class AppDbContext : DbContext
 
             builder.HasData(orderDetails);
         });
-
+        
         // modelBuilder.Entity<Cart>(builder =>
         // {
         //     builder.HasOne(u => u.User)
-        //         .WithOne(s => s.Cart);
+        //         .WithOne(s => s.Cart)
+        //         .HasForeignKey<Cart>(s => s.UserId)
+        //         .OnDelete(DeleteBehavior.Cascade);
+        // });
+        //
+        // modelBuilder.Entity<CartDetail>(builder =>
+        // {
+        //     builder.HasOne(u => u.Cart)
+        //         .WithMany(s => s.CartDetails)
+        //         .HasForeignKey(s => s.CartId)
+        //         .OnDelete(DeleteBehavior.Cascade);
+        //
+        //     builder.HasOne(u => u.Product)
+        //         .WithMany(s => s.CartDetails)
+        //         .HasForeignKey(s => s.ProductId)
+        //         .OnDelete(DeleteBehavior.Cascade);
         // });
     }
 }
