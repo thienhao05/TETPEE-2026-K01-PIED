@@ -28,7 +28,7 @@ public class CartController : ControllerBase
     public async Task<IActionResult> CreateCart()
     {
         await _cartService.CreateCart();
-        return Ok(ApiResponseFactory.SuccessResponse(data: null, "Cart created", HttpContext.TraceIdentifier));
+        return Ok(ApiResponseFactory.SuccessResponse(null, "Cart created", HttpContext.TraceIdentifier));
     }
     
     [HttpPost("product")]
