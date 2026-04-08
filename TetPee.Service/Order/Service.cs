@@ -177,7 +177,9 @@ public class Service : IService
             throw new Exception("OrderId not found in description");
         }
 
-        var query = _dbContext.Orders.Where(x => x.Id == orderId);
+        var query = _dbContext.Orders
+            .Where(x => x.Id == orderId)
+            .Include(x => x.OrderDetails);
 
         var order = await query.FirstOrDefaultAsync();
 
@@ -198,6 +200,23 @@ public class Service : IService
         
         order.Status = "Completed";
         _dbContext.Update(order);
+        await _dbContext.SaveChangesAsync();
+        
+        // Tìm những sản phẩm chưa trong cart với các id sau productIds của UserId
+        // Tìm đc rồi thì xóa đi
+        // _dbContext.RemoveRange();
+        
+        var productIds = order.OrderDetails.Select(x => x.ProductId).ToList();
+        
+        // Tìm những sản phẩm chưa trong cart với các id sau productIds của UserId
+        var queryProdCart = _dbContext.CartDetails.Where(x => 
+            x.Cart.UserId == order.UserId &&
+            productIds.Contains(x.ProductId));
+        
+        var removeCartDetails = await queryProdCart.ToListAsync();
+    
+        _dbContext.CartDetails.RemoveRange(removeCartDetails);
+        
         await _dbContext.SaveChangesAsync();
     }
 }
