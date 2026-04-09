@@ -1,7 +1,7 @@
-Bắt đầu làm 1u7ng1 dụn như thế nào: 
+Bắt đầu làm 1 ứng dụng như thế nào: 
 
 Đầu tiên phải biết là muốn làm cái app gì
-- Tôi muốn làm về 1 App mua bán quần
+- Tôi muốn làm về 1 App mua bán quần áo
 - Bán cái gì: Quần áo, giày dép, phụ kiện
 
 Những ai sẽ tương tác với cái app này
@@ -9,24 +9,24 @@ Những ai sẽ tương tác với cái app này
 - Người bán
 - Admin
 
-CÓ những thực thể nào tôn tại trong cái App
-- NGười mua
+CÓ những thực thể nào tồn tại trong cái App
+- Người mua
 - Người bán
 - Admin
 - Sản phẩm
 - Đơn hàng
 - Giỏ hàng
 
-Vậy thì những thực thể này có mỗi quan hệ gì với nhau
-- Người bán có thể có nhiều sản phẩm muốn bna1
-- Người mua có thể có nhei26u đơn hàng
-- Một đơn hàng thì có thể có nhiều san 3pha63m
-- Một san pham thì có thể thuộc nhiều dơn hàng
+Vậy thì những thực thể này có mối quan hệ gì với nhau
+- Người bán có thể có nhiều sản phẩm muốn bán
+- Người mua có thể có nhiều đơn hàng
+- Một đơn hàng thì có thể có nhiều sản phẩm
+- Một sản phẩm thì có thể thuộc nhiều đơn hàng
 
-Mình làm rõ hơn về các thực hte63 này (cp1 nhữn gfiled gì)
-- Người mua: id, name, passwrod, address
-- Sản phẩm: id, nam, description, price, stock, seller_id
+Mình làm rõ hơn về các thực thể này (Có những field gì)
+- Người mua: id, name, password, address
+- Sản phẩm: id, name, description, price, stock, seller_id
 
-Nhờ những nghiệp  vụ trên th2i chúng ta cco1 thể xác định được những
+Nhờ những nghiệp vụ trên thò chúng ta có thể xác định được những:
 - Database cho hệ thống
-- API cần thiết để phụ vụ hệ thống
+- API cần thiết để phục vụ cho app này

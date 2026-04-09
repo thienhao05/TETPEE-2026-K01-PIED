@@ -202,7 +202,7 @@ public class Service : IService
         _dbContext.Update(order);
         await _dbContext.SaveChangesAsync();
         
-        // Tìm những sản phẩm chưa trong cart với các id sau productIds của UserId
+        // Tìm những sản phẩm chứa trong cart với các id sau productIds của UserId
         // Tìm đc rồi thì xóa đi
         // _dbContext.RemoveRange();
         
