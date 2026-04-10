@@ -215,7 +215,7 @@ public class Service : IService
         
         var removeCartDetails = await queryProdCart.ToListAsync();
     
-        _dbContext.CartDetails.RemoveRange(removeCartDetails);
+        _dbContext.RemoveRange(removeCartDetails);
         
         await _dbContext.SaveChangesAsync();
     }
